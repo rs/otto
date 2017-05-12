@@ -9,6 +9,15 @@ type Visitor interface {
 	Visit(n Node) (w Visitor)
 }
 
+// VisitorFunc is a helper method to use the function as the visitor. Refer to
+// Visitor documentation.
+type VisitorFunc func(Visitor, Node) Visitor
+
+// Visit method is invoked for each node encountered by Walk.
+func (vf VisitorFunc) Visit(n Node) Visitor {
+	return vf(vf, n)
+}
+
 // Walk traverses an AST in depth-first order: It starts by calling
 // v.Visit(node); node must not be nil. If the visitor w returned by
 // v.Visit(node) is not nil, Walk is invoked recursively with visitor
