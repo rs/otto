@@ -103,6 +103,9 @@ func Walk(v Visitor, n Node) {
 	case *NullLiteral:
 	case *NumberLiteral:
 	case *ObjectLiteral:
+		for _, p := range n.Value {
+			Walk(v, p.Value)
+		}
 	case *Program:
 		for _, b := range n.Body {
 			Walk(v, b)
