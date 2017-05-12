@@ -1,6 +1,9 @@
 package ast
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 // Visitor Visit method is invoked for each node encountered by Walk.
 // If the result visitor w is not nil, Walk visits each of the children
@@ -15,7 +18,7 @@ type Visitor interface {
 // w for each of the non-nil children of node, followed by a call
 // of w.Visit(nil).
 func Walk(v Visitor, n Node) {
-	if n == nil {
+	if n == nil || reflect.ValueOf(n).IsNil() {
 		return
 	}
 	if v = v.Visit(n); v == nil {
